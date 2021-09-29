@@ -12,9 +12,6 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - focal
-    - name: Debian
-      versions:
-        - bullseye
   galaxy_tags:
     - development
     - ide
