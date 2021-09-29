@@ -4,4 +4,5 @@ code_server_cache_valid_time: 3600
 code_server_user: ckaserer
 code_server_bind_addr: "127.0.0.1:8080"
 code_server_password: "plaintextPassword"
+# code_server_hashed_password: "hashedPassword"
 ...

@@ -1,4 +1,8 @@
 bind-addr: {{ code_server_bind_addr }}
 auth: password
-password: {{ code_server_password }}
+{% if code_server_hashed_password is defined %}
+hashed-password: "{{ code_server_hashed_password }}"
+{% else %}
+password: "{{ code_server_password }}"
+{% endif %}
 cert: false
