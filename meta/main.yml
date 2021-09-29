@@ -1,0 +1,30 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: code_server
+  author: ckaserer
+  namespace: racqspace
+  description: Configure code-server.
+  license: "MIT"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+  galaxy_tags:
+    - development
+    - ide
+    - visualstudio
+    - visualstudiocode
+    - vscode
+    - codeserver
+    - autoupdate
+    - maintenance
+    - security
+    - system
+...

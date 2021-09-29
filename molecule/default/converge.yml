@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: instance*
+  roles:
+    - role: racqspace.code_server
+      vars:
+        code_server_user: root
+...

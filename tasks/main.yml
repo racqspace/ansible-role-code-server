@@ -1,0 +1,61 @@
+---
+- name: Make sure dependencies are installed
+  ansible.builtin.apt:
+    name:
+      - curl
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ code_server_cache_valid_time }}"
+
+- name: Create temporary file for code-server install script
+  ansible.builtin.tempfile:
+    state: file
+    suffix: code_server
+  register: code_server_script_tempfile
+  tags:
+    - molecule-idempotence-notest
+
+- name: Download code-server install script
+  ansible.builtin.get_url:
+    url: "https://code-server.dev/install.sh"
+    dest: "{{ code_server_script_tempfile.path }}"
+    mode: '0664'
+  tags:
+    - molecule-idempotence-notest
+
+- name: Install code-server
+  ansible.builtin.command:
+    cmd: "sh {{ code_server_script_tempfile.path }}"
+    creates: /usr/bin/code-server
+  notify: restart code-server
+  tags:
+    - molecule-idempotence-notest
+
+- name: Create code-server config directory
+  ansible.builtin.file:
+    path: "~/.config/code-server"
+    state: directory
+    mode: '0755'
+    owner: "{{ code_server_user }}"
+    group: "{{ code_server_user }}"
+
+- name: create code-server configuration
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: ~/.config/code-server/config.yaml
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  become_user: "{{ code_server_user }}"
+  notify: restart code-server
+  tags:
+    - code_server
+    - code_server.config
+
+- name: start code-server
+  ansible.builtin.service:
+    name: "code-server@{{ code_server_user }}"
+    state: started
+    enabled: true
+...
