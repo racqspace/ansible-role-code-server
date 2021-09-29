@@ -43,11 +43,9 @@
   ansible.builtin.template:
     src: config.yaml.j2
     dest: ~/.config/code-server/config.yaml
-    owner: root
-    group: root
+    owner: "{{ code_server_user }}"
+    group: "{{ code_server_user }}"
     mode: 0644
-  become: true
-  become_user: "{{ code_server_user }}"
   notify: restart code-server
   tags:
     - code_server
