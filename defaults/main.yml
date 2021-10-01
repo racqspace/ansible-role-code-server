@@ -14,4 +14,5 @@ code_server_password: "plaintextPassword"
 # learn how to use it at
 # https://coder.com/docs/code-server/v3.12.0/FAQ#can-i-store-my-password-hashed
 # code_server_hashed_password: ""
+# code_server_hashed_password: "hashedPassword"
 ...

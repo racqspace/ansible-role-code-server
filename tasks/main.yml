@@ -154,6 +154,8 @@
     group: "{{ code_server_user }}"
     mode: 0644
   notify: Restart code-server
+  become: true
+  become_user: "{{ code_server_user }}"
   tags:
     - code_server
     - code_server.config
