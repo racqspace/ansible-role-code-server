@@ -76,32 +76,32 @@ jobs:
       - name: Lint Code Base with yamllint
         run: yamllint .
 
-  molecule:
-    name: Molecule
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        distro:
-          - ubuntu2004
-      fail-fast: false
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+  # molecule:
+  #   name: Molecule
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       distro:
+  #         - ubuntu2004
+  #     fail-fast: false
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
 
-      - name: Set up Python 3
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
+  #     - name: Set up Python 3
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.x
 
-      - name: Install Molecule Dependencies
-        run: pip3 install -r requirements.txt
+  #     - name: Install Molecule Dependencies
+  #       run: pip3 install -r requirements.txt
 
-      - name: Run Molecule Tests
-        run: molecule test --all
-        env:
-          PY_COLORS: 1
-          ANSIBLE_FORCE_COLOR: 1
-          MOLECULE_DISTRO: ${{ matrix.distro }}
+  #     - name: Run Molecule Tests
+  #       run: molecule test --all
+  #       env:
+  #         PY_COLORS: 1
+  #         ANSIBLE_FORCE_COLOR: 1
+  #         MOLECULE_DISTRO: ${{ matrix.distro }}
 
   release:
     name: Release
@@ -112,7 +112,7 @@ jobs:
       - pre-commit
       - super-linter
       - yaml-linter
-      - molecule
+      # - molecule
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
