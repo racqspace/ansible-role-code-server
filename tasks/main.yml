@@ -6,30 +6,133 @@
     state: present
     update_cache: true
     cache_valid_time: "{{ code_server_cache_valid_time }}"
+  tags:
+    - code_server
+    - code_server.dependency
+
+- name: Check if code-server is installed
+  ansible.builtin.shell:
+    cmd: command -v code-server >/dev/null
+  ignore_errors: true
+  changed_when: false
+  failed_when: false
+  register: code_server_is_installed_result
+  tags:
+    - always
+    - code_server
+    - code_server.is_installed
+    - code_server.version
+    - code_server.version.local
+
+- name: Get local code-server version
+  ansible.builtin.shell:
+    cmd: "code-server -v | awk '{ print $1 }'"
+  changed_when: false
+  register: code_server_local_version_result
+  when:
+    - code_server_is_installed_result.rc == 0
+  tags:
+    - always
+    - code_server
+    - code_server.version
+    - code_server.version.local
+
+- name: Print local code-server version
+  debug:
+    msg: >-
+      Local code-server version:
+      {{ code_server_local_version_result.stdout }}
+  when:
+    - code_server_is_installed_result.rc == 0
+  tags:
+    - always
+    - code_server
+    - code_server.version
+    - code_server.version.local
 
 - name: Create temporary file for code-server install script
   ansible.builtin.tempfile:
     state: file
     suffix: code_server
+  changed_when: false
   register: code_server_script_tempfile
   tags:
-    - molecule-idempotence-notest
+    - always
+    - code_server
+    - code_server.version
+    - code_server.version.latest
+    - code_server.install
+    - code_server.install.temp_dir
 
 - name: Download code-server install script
   ansible.builtin.get_url:
     url: "https://code-server.dev/install.sh"
     dest: "{{ code_server_script_tempfile.path }}"
     mode: '0664'
+  changed_when: false
   tags:
-    - molecule-idempotence-notest
+    - always
+    - code_server
+    - code_server.version
+    - code_server.version.latest
+    - code_server.install
+    - code_server.install.download
+
+- name: Get latest code-server version
+  ansible.builtin.shell:
+    cmd: >-
+      sh {{ code_server_script_tempfile.path }} --dry-run |
+      awk '/Install/ { print $2 }'
+  changed_when: false
+  when:
+    - code_server_version is not defined
+  register: code_server_latest_version_result
+  tags:
+    - always
+    - code_server
+    - code_server.version
+    - code_server.version.latest
+
+- name: Print latest available code-server version
+  debug:
+    msg: >-
+      Latest available code-server version:
+      {{ code_server_latest_version_result.stdout }}
+  when:
+    - code_server_version is not defined
+  tags:
+    - always
+    - code_server
+    - code_server.version
+    - code_server.version.latest
 
 - name: Install code-server
   ansible.builtin.command:
-    cmd: "sh {{ code_server_script_tempfile.path }}"
-    creates: /usr/bin/code-server
-  notify: restart code-server
+    cmd: >-
+     sh {{ code_server_script_tempfile.path }}
+     {% if code_server_version is defined %}
+     --version {{ code_server_version }}
+     {% endif %}
+  notify: Restart code-server
+  when:
+    - (
+        code_server_is_installed_result.rc > 0
+      ) or (
+          code_server_local_version_result is defined and
+          code_server_local_version_result.stdout not in
+          code_server_latest_version_result.stdout
+      ) or (
+        code_server_version is defined and
+        code_server_local_version_result is not defined
+      ) or (
+        code_server_local_version_result is defined and
+        code_server_version is defined and
+        code_server_local_version_result.stdout not in code_server_version
+      )
   tags:
-    - molecule-idempotence-notest
+    - code_server
+    - code_server.install
+    - code_server.install.script
 
 - name: Create code-server config directory
   ansible.builtin.file:
@@ -38,20 +141,25 @@
     mode: '0755'
     owner: "{{ code_server_user }}"
     group: "{{ code_server_user }}"
+  tags:
+    - code_server
+    - code_server.config
+    - code_server.config.config_dir
 
-- name: create code-server configuration
+- name: Create code-server configuration
   ansible.builtin.template:
     src: config.yaml.j2
     dest: ~/.config/code-server/config.yaml
     owner: "{{ code_server_user }}"
     group: "{{ code_server_user }}"
     mode: 0644
-  notify: restart code-server
+  notify: Restart code-server
   tags:
     - code_server
     - code_server.config
+    - code_server.config.template
 
-- name: start code-server
+- name: Install code-server service
   ansible.builtin.service:
     name: "code-server@{{ code_server_user }}"
     state: started

@@ -1,9 +1,10 @@
 ---
-- name: Converge
+- name: Prepare
   hosts: instance*
   gather_facts: false
   roles:
     - role: racqspace.code_server
       vars:
         code_server_user: root
+        code_server_version: 3.10.0
 ...
