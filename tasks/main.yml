@@ -70,6 +70,7 @@
     url: "https://raw.githubusercontent.com/cdr/code-server/main/install.sh"
     dest: "{{ code_server_script_tempfile.path }}"
     mode: '0664'
+    force: true
   changed_when: false
   tags:
     - always
