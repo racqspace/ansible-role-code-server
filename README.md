@@ -11,6 +11,12 @@
 
 Install and setup [code-server](https://github.com/cdr/code-server).
 
+## Highlights
+* Run Visual Studio Code on any machine anywhere and access it in the browser
+* Code on any device with a consistent development environment
+* Use cloud servers to speed up tests, compilations, downloads, and more
+* Preserve battery life when you're on the go; all intensive tasks run on your server
+
 ## License
 
 MIT
