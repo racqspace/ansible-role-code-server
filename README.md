@@ -17,7 +17,7 @@ Install and setup [code-server](https://github.com/cdr/code-server).
 * Use cloud servers to speed up tests, compilations, downloads, and more
 * Preserve battery life when you're on the go; all intensive tasks run on your server
 
-More information regarding code-server at: https://github.com/cdr/code-server
+More information about code-server at: https://github.com/cdr/code-server
 
 ## License
 
