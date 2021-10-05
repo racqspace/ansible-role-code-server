@@ -19,8 +19,4 @@ galaxy_info:
     - visualstudiocode
     - vscode
     - codeserver
-    - autoupdate
-    - maintenance
-    - security
-    - system
 ...
