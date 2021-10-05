@@ -2,6 +2,10 @@
 - name: Verify
   hosts: instance*
   gather_facts: false
+  vars:
+    code_server_user: root
+    code_server_bind_addr: "127.0.0.1:8080"
+    code_server_password: "plaintextPassword"
   tasks:
     - name: Check code-server configuration
       ansible.builtin.template:
@@ -10,10 +14,6 @@
         owner: "root"
         group: "root"
         mode: 0644
-      vars:
-        code_server_user: root
-        code_server_bind_addr: "127.0.0.1:8080"
-        code_server_password: "plaintextPassword"
       check_mode: true
       register: code_server_verify
       failed_when: code_server_verify.changed

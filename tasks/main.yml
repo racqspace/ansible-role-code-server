@@ -38,7 +38,7 @@
     - code_server.version.local
 
 - name: Print local code-server version
-  debug:
+  ansible.builtin.debug:
     msg: >-
       Local code-server version:
       {{ code_server_local_version_result.stdout }}
@@ -95,7 +95,7 @@
     - code_server.version.latest
 
 - name: Print latest available code-server version
-  debug:
+  ansible.builtin.debug:
     msg: >-
       Latest available code-server version:
       {{ code_server_latest_version_result.stdout }}
