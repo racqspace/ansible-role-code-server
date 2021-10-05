@@ -18,5 +18,5 @@ provisioner:
   name: ansible
   config_options:
     defaults:
-      verbosity: 0
+      verbosity: 1
 ...
