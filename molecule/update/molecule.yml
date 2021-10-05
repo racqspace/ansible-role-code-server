@@ -16,4 +16,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      verbosity: 0
 ...
