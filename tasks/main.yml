@@ -142,7 +142,6 @@
     recurse: true
     mode: '0755'
     owner: "{{ code_server_user }}"
-    group: "{{ code_server_user }}"
   become: true
   become_user: "{{ code_server_user }}"
   tags:
@@ -155,7 +154,6 @@
     src: config.yaml.j2
     dest: ~/.config/code-server/config.yaml
     owner: "{{ code_server_user }}"
-    group: "{{ code_server_user }}"
     mode: 0644
   notify: Restart code-server
   become: true
