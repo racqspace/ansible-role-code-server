@@ -2,7 +2,7 @@
 # Cache update time for apt module.
 code_server_cache_valid_time: 3600
 # User running code-server.
-code_server_user: "{{ ansible_user }}"
+code_server_user: "{{ lookup('env', 'USER') }}"
 # Bind Address for code-server.
 # By default code-server is only bound to localhost.
 # If you would like to enable network access, consider
