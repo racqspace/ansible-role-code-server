@@ -80,27 +80,6 @@
     - code_server.install
     - code_server.install.download
 
-- name: Debug me
-  ansible.builtin.command:
-    cmd: >-
-      sh {{ code_server_script_tempfile.path }} --dry-run
-  changed_when: false
-  when:
-    - code_server_version is not defined
-  register: code_server_debug
-  tags:
-    - always
-    - code_server
-    - code_server.version
-    - code_server.version.latest
-
-- name: Debug me print
-  ansible.builtin.debug:
-    msg: >-
-      {{ code_server_debug.stdout }}
-  when:
-    - code_server_version is not defined
-
 - name: Get latest code-server version
   ansible.builtin.shell:
     cmd: >-
