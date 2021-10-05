@@ -139,6 +139,7 @@
   ansible.builtin.file:
     path: "~/.config/code-server"
     state: directory
+    recurse: true
     mode: '0755'
     owner: "{{ code_server_user }}"
     group: "{{ code_server_user }}"
