@@ -168,4 +168,8 @@
     name: "code-server@{{ code_server_user }}"
     state: started
     enabled: true
+  tags:
+    - code_server
+    - code_server.config
+    - code_server.config.service
 ...
