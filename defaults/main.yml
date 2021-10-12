@@ -1,15 +1,19 @@
 ---
 # Cache update time for apt module.
 code_server_cache_valid_time: 3600
+
 # User running code-server.
 code_server_user: "{{ lookup('env', 'USER') }}"
+
 # Bind Address for code-server.
 # By default code-server is only bound to localhost.
 # If you would like to enable network access, consider
 # using a webserver as a proxy. e.g. Nginx
 code_server_bind_addr: "127.0.0.1:8080"
+
 # INSECURE WAY to set the password.
 code_server_password: "plaintextPassword"
+
 # PREFERED WAY to set the password.
 # learn how to use it at
 # https://coder.com/docs/code-server/v3.12.0/FAQ#can-i-store-my-password-hashed

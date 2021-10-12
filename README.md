@@ -19,6 +19,28 @@ Install and setup [code-server](https://github.com/cdr/code-server).
 
 More information about code-server at: https://github.com/cdr/code-server
 
+## Role Variables
+
+Variable Name | Default Value | Description
+------------ | ------------- | -------------
+code_server_cache_valid_time | 3600 | Cache update time for apt module.
+code_server_user | "{{ lookup('env', 'USER') }}" | User running code-server.
+code_server_bind_addr | 127.0.0.1:8080 | Bind Address for code-server.
+code_server_password | plaintextPassword | INSECURE WAY to set the password.
+code_server_hashed_password |  | PREFERED WAY to set the password. learn how to use it at https://coder.com/docs/code-server/v3.12.0/FAQ#can-i-store-my-password-hashed
+
+## Role Usage Examples
+
+Example for installing code-server with "myPassword" as plaintext password.
+
+```yaml
+- hosts: all
+  roles:
+  - role: racqspace.code_server
+    vars:
+      code_server_password: myPassword
+```
+
 ## License
 
 MIT
