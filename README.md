@@ -11,6 +11,8 @@
 
 Install and setup [code-server](https://github.com/cdr/code-server).
 
+![VS Studio Code in your Browser](https://github.com/cdr/code-server/raw/main/docs/assets/screenshot.png)
+
 ## Highlights
 * Run Visual Studio Code on any machine anywhere and access it in the browser
 * Code on any device with a consistent development environment
